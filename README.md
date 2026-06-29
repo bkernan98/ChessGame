@@ -34,25 +34,6 @@ headers made it clear what each part was responsible for:
 
 `config.h` holds a couple of shared constants.
 
-## Building and running
-
-From the project root:
-
-```bash
-make clean && make
-./build/chess-handsome-hedgehogs
-```
-
-One thing to watch: the ASCII UI file lives in `src/ui/` but pulls in `board.h`
-from `src/`, so the Makefile's include flags need both directories:
-
-```make
-INCLUDES = -Iinclude -Isrc
-```
-
-If you get a `board.h: No such file or directory` error, that missing `-Isrc`
-is why.
-
 ## How to play
 
 Run it and you'll see the board with files `a`–`h` across the top and ranks
@@ -89,17 +70,6 @@ We focused on getting the core rules solid and ran out of time for the extras:
 
 Input also has to be in exactly the `e2 e4` format — anything else gets
 rejected and asks you to try again.
-
-## Notes / things we'd clean up
-
-A couple of rough spots we know about and would fix with more time:
-
-- `current_player` is defined in `player.h` as a `static` variable, which gives
-  every file that includes it its own copy. It happens to work because only
-  `player.c` touches it through the getter/setter, but it's the kind of thing
-  that bites you later. Better to define it once in `player.c` and `extern` it.
-- `config.h` is missing an include guard and isn't actually used by anything
-  yet — it also redefines `BOARD_SIZE`, which already lives in `board.h`.
 
 ## AI tool use
 
